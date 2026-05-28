@@ -1,0 +1,571 @@
+/* ============================================================
+   Expense & Budget Visualizer — styles
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   CSS Custom Properties — Light Theme (default)
+   ------------------------------------------------------------ */
+[data-theme="light"] {
+  --color-bg:          #f5f7fa;
+  --color-surface:     #ffffff;
+  --color-surface-alt: #eef1f6;
+  --color-border:      #d1d9e0;
+  --color-text:        #1a1d23;
+  --color-text-muted:  #6b7280;
+  --color-accent:      #4f6ef7;
+  --color-accent-hover:#3a57d4;
+  --color-danger:      #e53e3e;
+  --color-danger-hover:#c53030;
+  --color-over-limit:  #fff3cd;
+  --color-over-limit-border: #f59e0b;
+  --color-badge-food:      #fde8e8;
+  --color-badge-food-text: #9b1c1c;
+  --color-badge-transport:     #dbeafe;
+  --color-badge-transport-text:#1e40af;
+  --color-badge-fun:       #fef3c7;
+  --color-badge-fun-text:  #92400e;
+  --color-balance-text:    #1a1d23;
+  --shadow-card:       0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* ------------------------------------------------------------
+   CSS Custom Properties — Dark Theme
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  --color-bg:          #0f1117;
+  --color-surface:     #1c1f2b;
+  --color-surface-alt: #252836;
+  --color-border:      #3a3f52;
+  --color-text:        #e8eaf0;
+  --color-text-muted:  #9ca3af;
+  --color-accent:      #6c8aff;
+  --color-accent-hover:#8fa3ff;
+  --color-danger:      #fc8181;
+  --color-danger-hover:#feb2b2;
+  --color-over-limit:  #3b2f0a;
+  --color-over-limit-border: #d97706;
+  --color-badge-food:      #4a1515;
+  --color-badge-food-text: #fca5a5;
+  --color-badge-transport:     #1e3a5f;
+  --color-badge-transport-text:#93c5fd;
+  --color-badge-fun:       #3b2a00;
+  --color-badge-fun-text:  #fcd34d;
+  --color-balance-text:    #e8eaf0;
+  --shadow-card:       0 1px 4px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* ------------------------------------------------------------
+   Reset & Base
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;       /* 16px — well above the 14px minimum */
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------ */
+h1 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+p,
+label,
+input,
+select,
+button,
+li {
+  font-size: 0.9375rem; /* 15px — above 14px minimum */
+}
+
+/* ------------------------------------------------------------
+   App Header
+   ------------------------------------------------------------ */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   Layout — Main Content
+   ------------------------------------------------------------ */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  main {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+@media (min-width: 900px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem 2rem 3rem;
+  }
+
+  /* Balance spans full width */
+  main > section:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Chart spans full width */
+  main > section:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ------------------------------------------------------------
+   Card / Section
+   ------------------------------------------------------------ */
+main > section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* ------------------------------------------------------------
+   Total Balance Display
+   ------------------------------------------------------------ */
+#total-balance {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  color: var(--color-balance-text);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+#total-balance::before {
+  content: '$';
+  font-size: 0.55em;
+  vertical-align: super;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------
+   Form
+   ------------------------------------------------------------ */
+#transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+#transaction-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+label {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+/* Custom select arrow */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+}
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Primary — Add Transaction */
+#btn-add {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+#btn-add:hover {
+  background-color: var(--color-accent-hover);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+
+/* Secondary — Set Limit */
+#btn-set-limit {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+}
+
+#btn-set-limit:hover {
+  background-color: var(--color-border);
+}
+
+/* Theme Toggle */
+#btn-theme-toggle {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.875rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+#btn-theme-toggle:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
+}
+
+/* Delete button */
+.btn-delete {
+  background-color: transparent;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.875rem; /* 14px — meets the 14px minimum (Requirement 9.2) */
+  font-weight: 500;
+  border-radius: 0.375rem;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+/* ------------------------------------------------------------
+   Form Error
+   ------------------------------------------------------------ */
+#form-error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] #form-error {
+  background-color: #3b0a0a;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+/* ------------------------------------------------------------
+   Sort Controls
+   ------------------------------------------------------------ */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sort-controls label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+#sort-select {
+  width: auto;
+  flex: 1;
+  min-width: 140px;
+}
+
+/* ------------------------------------------------------------
+   Spending Limit Controls
+   ------------------------------------------------------------ */
+.limit-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.limit-controls > div {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* ------------------------------------------------------------
+   Transaction List
+   ------------------------------------------------------------ */
+#transaction-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* Scrollbar styling */
+#transaction-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+#transaction-list::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+  border-radius: 4px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+#transaction-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  flex-wrap: wrap;
+}
+
+#transaction-list li:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.transaction-name {
+  flex: 1;
+  font-weight: 500;
+  min-width: 80px;
+  word-break: break-word;
+}
+
+.transaction-amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   Category Badges
+   ------------------------------------------------------------ */
+.category-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.875rem; /* 14px — meets the 14px minimum (Requirement 9.2) */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Per-category badge colors */
+li:has(.category-badge:not([class*="Food"]):not([class*="Transport"]):not([class*="Fun"])) .category-badge,
+.category-badge {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+/* Use data attribute or text-based targeting via JS class — fallback generic */
+/* The JS sets textContent to the category name; we target via attribute trick */
+/* Since badges use textContent, we rely on a small JS-added class or just use
+   the generic badge style. The per-category colors are applied via JS-added classes
+   if available, otherwise the generic style applies. */
+
+/* If the app adds category-specific classes (food/transport/fun), style them: */
+.category-badge.food,
+.category-badge[data-category="Food"] {
+  background-color: var(--color-badge-food);
+  color: var(--color-badge-food-text);
+}
+
+.category-badge.transport,
+.category-badge[data-category="Transport"] {
+  background-color: var(--color-badge-transport);
+  color: var(--color-badge-transport-text);
+}
+
+.category-badge.fun,
+.category-badge[data-category="Fun"] {
+  background-color: var(--color-badge-fun);
+  color: var(--color-badge-fun-text);
+}
+
+/* ------------------------------------------------------------
+   Over-Limit Highlight (Requirement 7.2)
+   ------------------------------------------------------------ */
+.over-limit {
+  background-color: var(--color-over-limit) !important;
+  border-color: var(--color-over-limit-border) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-over-limit-border) 30%, transparent);
+}
+
+.over-limit .transaction-amount {
+  color: var(--color-over-limit-border);
+}
+
+/* ------------------------------------------------------------
+   Empty State Messages
+   ------------------------------------------------------------ */
+#empty-message,
+#chart-empty {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  text-align: center;
+  padding: 1.5rem 0;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Chart Section
+   ------------------------------------------------------------ */
+#chart-canvas {
+  display: block;
+  max-width: 360px;
+  max-height: 360px;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   Spending Limit Section — inline layout
+   ------------------------------------------------------------ */
+section:has(#spending-limit-input) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ------------------------------------------------------------
+   Utility
+   ------------------------------------------------------------ */
+[hidden] {
+  display: none !important;
+}
+
+/* Focus-visible ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   Responsive — narrow screens (320px+)
+   ------------------------------------------------------------ */
+@media (max-width: 400px) {
+  .app-header {
+    padding: 0.75rem 1rem;
+  }
+
+  main {
+    padding: 1rem 0.75rem 2rem;
+    gap: 1rem;
+  }
+
+  main > section {
+    padding: 1rem;
+  }
+
+  #transaction-list li {
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .btn-delete {
+    margin-left: auto;
+  }
+}
